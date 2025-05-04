@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(to right, #e0f7fa, #e1bee7);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        input[type="text"], input[type="date"] {
+            padding: 10px;
+            margin: 10px 5px 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(50% - 20px);
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px 10px 0;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:nth-of-type(1) {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .task button:nth-of-type(1) {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .task button:nth-of-type(2) {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+
+        .task:hover {
+            background-color: #f0f0f0;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+            background-color: #e0e0e0 !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>To-Do App</h1>
+    <input type="text" id="taskInput" placeholder="Add new task">
+    <input type="date" id="taskDate">
+    <button onclick="addTask()">Add</button>
+    <ul id="taskList"></ul>
+
+    <script>
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskDate = document.getElementById('taskDate');
+            const taskList = document.getElementById('taskList');
+
+            if (!taskInput.value.trim()) return;
+
+            const li = document.createElement('li');
+            li.className = 'task';
+            li.innerHTML = `
+                <span>${taskInput.value} (${taskDate.value || 'No date'})</span>
+                <div>
+                    <button onclick="toggleTask(this)">✔</button>
+                    <button onclick="removeTask(this)">🗑️</button>
+                </div>
+            `;
+            taskList.appendChild(li);
+            taskInput.value = '';
+            taskDate.value = '';
+        }
+
+        function toggleTask(button) {
+            const span = button.closest('li').querySelector('span');
+            span.classList.toggle('completed');
+
+            // Change background color if completed
+            const task = button.closest('li');
+            if (span.classList.contains('completed')) {
+                task.style.backgroundColor = '#e0e0e0';
+            } else {
+                task.style.backgroundColor = '#ffffff';
+            }
+        }
+
+        function removeTask(button) {
+            button.closest('li').remove();
+        }
+    </script>
+</body>
+</html>
